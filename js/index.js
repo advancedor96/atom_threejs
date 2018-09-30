@@ -16,16 +16,15 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 container.appendChild( renderer.domElement );
 
 // 中間的球
-var geometry = new THREE.SphereBufferGeometry( 1, 32, 32 );
+var geometry = new THREE.SphereBufferGeometry( 0.5, 32, 32 );
 var material = new THREE.MeshLambertMaterial( {color: 0xc9c9c9});
 var center = new THREE.Mesh( geometry, material );
-// scene.add( center );
+scene.add( center );
 
 // 藍環
 var blue_ring_geo = new THREE.TorusBufferGeometry( 10, 0.1, 30, 100 ); // 使用 Torus 環面！
 var blue_ring_material = new THREE.MeshLambertMaterial( {color: "#00f", side: THREE.DoubleSide} );
 var blue_ring = new THREE.Mesh( blue_ring_geo, blue_ring_material );
-// blue_ring.rotation.x = Math.PI/2;
 blue_group.add(blue_ring);
 
 
@@ -46,11 +45,7 @@ var green_ring = new THREE.Mesh( green_ring_geo, green_ring_material );
 green_ring.name="green ring"
 green_group.add(green_ring);
 // 旋轉後，物體的x,y,z 軸也會跟著旋轉
-// green_ring.rotation.x = Math.PI/2;
-// green_ring.rotation.y = -Math.PI/3;
 
-// scene.add( green_ring );
-// group.add(green_ring)
 
 // 綠球
 var green_ball_geo = new THREE.SphereBufferGeometry( 0.7, 32, 32);
@@ -70,8 +65,6 @@ var red_ring_material = new THREE.MeshLambertMaterial( {color: 0xff0000, side: T
 var red_ring = new THREE.Mesh( red_ring_geo, red_ring_material );
 red_ring.name="red ring"
 red_group.add(red_ring);
-// red_ring.rotation.y = 1.5;
-// scene.add( red_ring );
 
 // 紅球
 var red_ball_geo = new THREE.SphereBufferGeometry( 0.7, 32, 32);
@@ -85,11 +78,13 @@ red_group.add(red_ball);
 scene.add(red_group);
 
 // light
+
   // 環境光，讓每一面都施加光源，直接copy
   var ambientLight = new THREE.AmbientLight("#333")
   scene.add(ambientLight)
+
   // 平行光，Directional Light，直接copy
-  var directionalLight = new THREE.DirectionalLight(0xffffff,1)
+  var directionalLight = new THREE.DirectionalLight(0xffffff,0.5)
   scene.add(directionalLight)
 
   
@@ -105,7 +100,8 @@ scene.add(red_group);
 
 
 
-camera.position.z = 25;
+camera.position.z = 28;
+camera.position.y = 5;
 
 blue_group.rotation.x = Math.PI/2;
 
@@ -114,7 +110,6 @@ green_group.rotation.y = -Math.PI/3;
 
 red_group.rotation.x = Math.PI/2;
 red_group.rotation.y = Math.PI/3;
-// red_group.rotation.z = -Math.PI/6;
 
 var animate = function () {
    requestAnimationFrame( animate );
@@ -135,8 +130,6 @@ var animate = function () {
    green_ball.angle+=0.02;
    red_ball.angle+=0.03;
 
-   // group.rotation.y +=0.01
-   // group.rotation.z +=0.01
    renderer.render( scene, camera );
 };
 
